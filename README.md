@@ -1,4 +1,9 @@
+# Intermediate Restfull API
+
+## Description
+
 **Requirements**
+- Get all jobs, pagination by `page=integer`,
 
 
 - [ ] As a client app I can make a GET request to http://localhost:5000/jobs and receive back an array of 20 jobs.
