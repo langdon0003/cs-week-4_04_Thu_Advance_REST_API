@@ -7,14 +7,16 @@ jobController.getAllJobs = (req, res, next) => {
   const limit = 20
   // const page = req.query.page || 1
 
-  const { page, title, companyName, city, skills } = req.query
+  const { page, title, companyName, city, singleSkill } = req.query
   const reqPage = parseInt(page) || 1
 
 
   try {
     let rawData = fs.readFileSync('data.json', "utf-8")
     let data = JSON.parse(rawData)
+    let companyList = data.companies
     let result = data.jobs
+
 
     if (title) {
       result = result.filter(i => i.title === title)
@@ -23,6 +25,18 @@ jobController.getAllJobs = (req, res, next) => {
     if (city) {
       result = result.filter(i => i.city === city)
     }
+
+    if (companyName) {
+      let queryCompany = companyList.find(i => i.name === companyName)
+
+      result = result.filter(i => i.companyId === queryCompany.id)
+
+    }
+
+    if (singleSkill) {
+      result = result.filter(i => i.skills.includes(singleSkill))
+    }
+
 
     result = result.slice((reqPage - 1) * limit, reqPage * limit)
 
